@@ -1,7 +1,14 @@
 import React from 'react'
 import Button from './Button'
+import Tasks from './Tasks'
 
-const SelectedProject = ({ project, onDelete }) => {
+const SelectedProject = ({ project, onDelete, onAddTask, onDeleteTask, tasks }) => {
+    if (!project) {
+        return null;
+    }
+    const projectTasks = tasks.filter(
+        task => task.projectId === project.id
+    );
 
     const formattedDate = new Date(project.dueDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -18,7 +25,7 @@ const SelectedProject = ({ project, onDelete }) => {
                 <p className='mb-4 text-stone-400'>{formattedDate}</p>
                 <p className='text-stone-600 whitespace-pre-wrap'>{project.description}</p>
             </header>
-            Tasks
+            <Tasks onAdd={onAddTask} onDelete={onDeleteTask} tasks={projectTasks} />
         </div>
     )
 }
